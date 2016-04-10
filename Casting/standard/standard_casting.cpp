@@ -4,7 +4,7 @@ class Base {};
 
 class Derived {
 public:
-  Derived (const Base& x);
+  explicit Derived (const Base& x);
   Derived& operator = (const Base& x);
   operator Base();
 };
@@ -23,11 +23,19 @@ Derived::operator Base() {
   return Base();
 }
 
+void function (Derived x) {
+  std::cout << "Function called" << std::endl;
+  return;
+}
+
 int main ()
 {
   Base base;
-  Derived derived = base;
+  Derived derived (base);
   derived = base;
   base = derived;
+
+  function (derived);
+  //function (base); // error because of explicit
   return 0;
 }
